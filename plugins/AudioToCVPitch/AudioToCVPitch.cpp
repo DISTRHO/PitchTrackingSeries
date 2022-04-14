@@ -68,9 +68,11 @@ class AudioToCVPitch : public Plugin
         bool holdOutputPitch = kDefaultHoldOutputPitch;
     } parameters;
 
-    float lastKnownPitchLinear = 0.f;
     float lastKnownPitchInHz = 0.f;
     float lastKnownPitchConfidence = 0.f;
+
+    float lastUsedOutputPitch = 0.f;
+    float lastUsedOutputSignal = 0.f;
 
     fvec_t* const detectedPitch = new_fvec(1);
     fvec_t* const inputBuffer = new_fvec(kAubioBufferSize);
@@ -198,8 +200,8 @@ protected:
             break;
         case paramHoldOutputPitch:
             parameter.hints = kParameterIsAutomatable | kParameterIsInteger | kParameterIsBoolean;
-            parameter.name = "Hold output pitch";
-            parameter.symbol = "HoldOutputPitch";
+            parameter.name = "Hold Pitch";
+            parameter.symbol = "HoldPitch";
             parameter.ranges.def = 0;
             parameter.ranges.min = 0;
             parameter.ranges.max = 1;
@@ -283,8 +285,8 @@ protected:
 
     void run(const float** inputs, float** outputs, uint32_t numFrames) override
     {
-        float cvPitch = lastKnownPitchLinear;
-        float cvSignal = cvPitch > 0.0f ? 1.0f : 0.0f;
+        float cvPitch = lastUsedOutputPitch;
+        float cvSignal = lastUsedOutputSignal;
 
         for (uint32_t i = 0; i < numFrames; ++i)
         {
@@ -301,18 +303,15 @@ protected:
                 if (detectedPitchInHz > 0.f && pitchConfidence >= parameters.threshold)
                 {
                     const float linearPitch = (12.f * log2f(detectedPitchInHz / 440.f) + 69.f) + (12.f * parameters.octave);
-                    lastKnownPitchLinear = cvPitch = std::max(0.f, std::min(10.f, linearPitch * (1.f/12.f)));
+                    cvPitch = std::max(0.f, std::min(10.f, linearPitch * (1.f/12.f)));
                     lastKnownPitchInHz = detectedPitchInHz;
                     cvSignal = 1.f;
                 }
-                else if (parameters.holdOutputPitch)
-                {
-                    cvPitch = lastKnownPitchLinear;
-                    cvSignal = 0.f;
-                }
                 else
                 {
-                    lastKnownPitchInHz = lastKnownPitchLinear = cvPitch = 0.0f;
+                    if (! parameters.holdOutputPitch)
+                        lastKnownPitchInHz = cvPitch = 0.0f;
+
                     cvSignal = 0.f;
                 }
 
@@ -322,6 +321,9 @@ protected:
             outputs[outputPitch][i] = cvPitch;
             outputs[outputSignal][i] = cvSignal;
         }
+
+        lastUsedOutputPitch = cvPitch;
+        lastUsedOutputSignal = cvSignal;
     }
 
     void sampleRateChanged(const double newSampleRate) override
