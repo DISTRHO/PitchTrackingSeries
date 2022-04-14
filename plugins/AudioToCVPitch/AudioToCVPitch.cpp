@@ -26,8 +26,8 @@ START_NAMESPACE_DISTRHO
 
 // -----------------------------------------------------------------------
 
-// aubio setup values
-static constexpr const uint32_t kAubioHopSize = 8;
+// aubio setup values (tested under 48 kHz sample rate)
+static constexpr const uint32_t kAubioHopSize = 1;
 static constexpr const uint32_t kAubioBufferSize = (1024 + 256 + 128) / kAubioHopSize;
 
 // default values
