@@ -18,8 +18,7 @@
 
 #pragma once
 
-#define DISTRHO_PLUGIN_BRAND "DISTRHO"
-#define DISTRHO_PLUGIN_NAME  "Audio to CV Pitch"
+#define DISTRHO_PLUGIN_NAME  "AudioToCV Pitch"
 #define DISTRHO_PLUGIN_URI   "https://distrho.kx.studio/plugins/pitchtracking#cv"
 
 #define DISTRHO_PLUGIN_HAS_UI           0
@@ -29,12 +28,14 @@
 #define DISTRHO_PLUGIN_WANT_LATENCY     1
 #define DISTRHO_PLUGIN_WANT_MIDI_INPUT  0
 #define DISTRHO_PLUGIN_WANT_MIDI_OUTPUT 0
-#define DISTRHO_PLUGIN_WANT_PROGRAMS    0
+#define DISTRHO_PLUGIN_WANT_PROGRAMS    1
 #define DISTRHO_PLUGIN_WANT_TIMEPOS     0
 
 #ifdef __MOD_DEVICES__
+#define DISTRHO_PLUGIN_BRAND "MOD/DISTRHO"
 #define DISTRHO_PLUGIN_LV2_CATEGORY "mod:ControlVoltagePlugin"
 #define DISTRHO_PLUGIN_USES_MODGUI 1
 #else
+#define DISTRHO_PLUGIN_BRAND "DISTRHO"
 #define DISTRHO_PLUGIN_LV2_CATEGORY "lv2:UtilityPlugin"
 #endif
