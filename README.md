@@ -15,7 +15,6 @@ The bottom output carries the CV gate signal, it sends out 10V while a pitch is 
 The Sensitivity parameter can be increased to detect quieter signals, or decreased to reduce artifacts.
 The Octave parameter allows you to shift the detected pitch up or down by a maximum of 4 octaves. When set to 0, it will output the same pitch as is detected on the input.
 
-The plugin also features 3 parameters that are not visible on the plugin interface:
- - The Hold Pitch parameter sets whether the plugin resets its outputs to 0, or holds the last detected pitch.
- - Increase the Confidence Threshold to make sure the correct pitch is being output, or decrease it to get a faster response time.
- - The Tolerance parameter influences how quickly you can change pitch, turn it down for a more accurate pitch output, or turn it up to make it easier to jump from one pitch to the next.
+The Hold Pitch parameter sets whether the plugin resets its outputs to 0, or holds the last detected pitch.
+The Confidence Threshold can be increased to make sure the correct pitch is being output, or decrease it to get a faster response time.
+And finally, the Tolerance parameter influences how quickly you can change pitch, turn it down for a more accurate pitch output, or turn it up to make it easier to jump from one pitch to the next.
