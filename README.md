@@ -9,8 +9,8 @@ For now there is only 1 variant - CV - for audio input and CV output (in 1V/Oct 
 The Audio To CV Pitch plugin is a tool that turns your audio signal into CV pitch and CV gate signals.
 This allows audio from instruments (such as guitars) to play and control synth sounds and effects.
 
-It detects the pitch in your incoming audio signal and outputs a 1V/Oct CV pitch signal on the top output.
-The bottom output carries the CV gate signal, it sends out 10V while a pitch is detected, and resets to 0V when the pitch can no longer be detected.
+It detects the pitch in your incoming audio signal and outputs a 1V/Oct CV pitch signal on the "Pitch Out" CV port.
+The "Gate" CV port sends out 10V while a pitch is detected, and resets to 0V when the pitch can no longer be detected.
 
 The Sensitivity parameter can be increased to detect quieter signals, or decreased to reduce artifacts.
 The Octave parameter allows you to shift the detected pitch up or down by a maximum of 4 octaves. When set to 0, it will output the same pitch as is detected on the input.
